@@ -1,0 +1,17 @@
+.allusers{
+    width: 100%;
+}
+
+.parent{
+    margin-top: 55px;
+}
+
+table, th, td {
+    border: 3px solid black;
+}
+
+table td{
+    text-align: center;
+}
+
+
