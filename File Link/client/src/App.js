@@ -6,6 +6,7 @@ import { uploadFile } from "./services/api";
 function App() {
 
   const[file,setfile] = useState('');
+  const[result,setresult] = useState('');
 
   const fileInputRef = useRef();
 
@@ -22,6 +23,7 @@ function App() {
         data.append("name",file.name);
         data.append("file",file);
         let response = await uploadFile(data);
+        setresult(response.path);
       }
     }
     getImage();
@@ -35,6 +37,7 @@ function App() {
         <p className="normal_text">Upload and Share the Download Link</p>
         <button onClick={() => onUpload()} className="upload_btn" >Upload </button>
         <input type="file" className="upload_input" ref={fileInputRef} onChange = {(e) => setfile(e.target.files[0])}/>
+        <a className="dnld_link" href={result} target="_blank">{result}</a>
       </div>
     </div>
   );
