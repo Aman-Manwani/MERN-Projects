@@ -3,16 +3,23 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv');
 const DBConnection = require('./database/db')
+const router = require('./routes/Routes')
+
 
 const app = express()
 dotenv.config();
+
+
 
 const PORT = process.env.PORT;
 const USERNAME = process.env.USERNAME;
 const PASSWORD = process.env.PASSWORD;
 
+
 //middlewares
 app.use(cors())
+app.use(express.json());
+app.use('/',router);
 
 DBConnection(USERNAME,PASSWORD);
 
