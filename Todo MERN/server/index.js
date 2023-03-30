@@ -12,8 +12,8 @@ dotenv.config();
 
 
 const PORT = process.env.PORT;
-const USERNAME = process.env.USERNAME;
-const PASSWORD = process.env.PASSWORD;
+const USERNAME = process.env.DB_USERNAME;
+const PASSWORD = process.env.DB_PASSWORD;
 
 
 //middlewares

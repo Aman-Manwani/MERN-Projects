@@ -10,7 +10,8 @@ function App() {
   const [itemText,setItemText] = useState('');
   const [listItems,setListItems] = useState([]);
   const [isUpdating,setIsUpdating] = useState('');
-
+  const [newItemText,setNewItemText] = useState('');
+  
   const addItem = async(e) =>{
     e.preventDefault();
     try{
@@ -39,25 +40,36 @@ function App() {
     try{
       const response = await axios.delete(`${URL}/delete/item/${id}`);
       const newListItems = listItems.filter(item=> item._id!==id);
+      console.log(response);
       setListItems(newListItems);
     }catch(err){
       console.log(err); 
     }
   }
 
-  const updateItem = async(id) => {
+  const updateItem = async(e) => {
+    e.preventDefault();
     try{
-      const response = await axios.put(`${URL}/update/item/${id}`)
+      const response = await axios.put(`${URL}/update/item/${isUpdating}`,{item:newItemText});
+      setIsUpdating('')
+      setNewItemText('')
+      const changedIndex =  listItems.findIndex(item=> item._id===isUpdating);
+      listItems[changedIndex].item = newItemText;
+      console.log('updated success',response);
     }catch(err){
       console.log(err);
     }
   }
 
   const renderUpdateForm = () => {
-    <form className='update_form'>
-      <input type="text" className='update_new_input' placeholder='New Item'/>
-      <button className='update_new_btn'>Update</button>
-    </form>
+    return(
+    <>
+      <form onSubmit={e=>{updateItem(e)}} className='update_form'>
+        <input type="text" className='update_new_input' onChange={e=>{setNewItemText(e.target.value)}} placeholder='Enter Updated Item' value={newItemText}/>
+        <button type='submit' className='update_new_btn'>Update</button>
+      </form>
+    </>
+    )
   }
 
   const handleChange = (e) => {
@@ -76,7 +88,7 @@ function App() {
       {
         listItems.map(item => {
           return(
-            <div className="todoItem">
+            <div key={item._id} className="todoItem">
             {  
                 isUpdating===item._id
                 ? renderUpdateForm()
